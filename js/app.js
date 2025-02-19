@@ -23,29 +23,74 @@ let msg;
 
 const squareEls = document.getElementsByClassName("sqr");
 const messageEl = document.getElementById("message");
+const resetBtnEl = document.getElementById("reset")
 
 /*-------------------------------- Functions --------------------------------*/
 
+function switchPlayerTurn() {
+  if (winner) {
+    return;
+  } else if (winner === false) {
+    if (turn === "X") {
+      turn = "O";
+    } else if (turn === "O") {
+      turn = "X";
+    }
+  }
+}
+
+function checkForTie() {
+  if (winner) {
+    return;
+  } else {
+    // checks if every square has an empty string when there is no winner
+    if (board.every((square) => square !== "")) { 
+      tie = true;
+    }
+  }
+}
+
+function checkForWinner() {
+  winningCombos.forEach((combo) => {
+    let firstIndexOfCombo = combo[0];
+    let secondIndexOfCombo = combo[1];
+    let thirdIndexOfCombo = combo[2];
+
+    if (
+      board[firstIndexOfCombo] !== "" &&
+      board[firstIndexOfCombo] !== undefined
+    ) {
+      if (board[firstIndexOfCombo] === board[secondIndexOfCombo]) {
+        if (board[firstIndexOfCombo] === board[thirdIndexOfCombo]) {
+          winner = true;
+          return;
+        }
+      }
+    }
+  });
+}
+
 function placePiece(index) {
   board[index] = turn;
-  console.log(board); // Delete Me
 }
 
 function handleClick(event) {
-  // alert(`You Clicked ${this.id}`) // delete me
   const squareIndex = event.target.id;
-  
+
   if (winner) {
     return;
   }
-  
-  if (board[squareIndex] === 'X' || board[squareIndex] === 'O') {
+
+  if (board[squareIndex] === "X" || board[squareIndex] === "O") {
     return;
   }
 
   placePiece(squareIndex);
+  checkForWinner();
+  checkForTie();
+  switchPlayerTurn();
+  render();
 }
-
 
 function updateMessage() {
   if (winner === false && tie === false) {
@@ -70,7 +115,7 @@ function render() {
 
 function init() {
   // TODO: finish function
-  board = [""];
+  board = ["", "", "", "", "", "", "", "", ""];
   turn = "X";
   winner = false;
   tie = false;
@@ -78,11 +123,12 @@ function init() {
 }
 
 init();
-
 /*----------------------------- Event Listeners -----------------------------*/
-document.querySelectorAll(".sqr").forEach(square => {
-  square.addEventListener("click", handleClick)
-})
+document.querySelectorAll(".sqr").forEach((square) => {
+  square.addEventListener("click", handleClick);
+});
+
+document.getElementById("reset").addEventListener("click", init);
 
 //1) Define the required variables used to track the state of the game.
 
