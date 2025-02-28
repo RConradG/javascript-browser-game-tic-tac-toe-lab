@@ -1,5 +1,5 @@
 /*-------------------------------- Constants --------------------------------*/
-const winningCombos = [
+const WINNING_COMBOS = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -9,7 +9,6 @@ const winningCombos = [
   [0, 4, 8],
   [2, 4, 6],
 ];
-
 
 /*---------------------------- Variables (state) ----------------------------*/
 
@@ -23,7 +22,7 @@ let msg;
 
 const squareEls = document.getElementsByClassName("sqr");
 const messageEl = document.getElementById("message");
-const resetBtnEl = document.getElementById("reset")
+const resetBtnEl = document.getElementById("reset");
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -44,22 +43,19 @@ function checkForTie() {
     return;
   } else {
     // checks if every square has an empty string when there is no winner
-    if (board.every((square) => square !== "")) { 
+    if (board.every((square) => square !== "")) {
       tie = true;
     }
   }
 }
 
 function checkForWinner() {
-  winningCombos.forEach((combo) => {
+  WINNING_COMBOS.forEach((combo) => {
     let firstIndexOfCombo = combo[0];
     let secondIndexOfCombo = combo[1];
     let thirdIndexOfCombo = combo[2];
 
-    if (
-      board[firstIndexOfCombo] !== "" &&
-      board[firstIndexOfCombo] !== undefined
-    ) {
+    if (board[firstIndexOfCombo] !== "") {
       if (board[firstIndexOfCombo] === board[secondIndexOfCombo]) {
         if (board[firstIndexOfCombo] === board[thirdIndexOfCombo]) {
           winner = true;
