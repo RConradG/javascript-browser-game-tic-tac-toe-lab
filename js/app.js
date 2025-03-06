@@ -139,4 +139,7 @@ document.getElementById("reset").addEventListener("click", init);
 
 //6) Handle a player clicking a square with a `handleClick` function.
 
-//7) Create Reset functionality.
+//7) Create Reset functionality
+
+
+
